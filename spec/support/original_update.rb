@@ -1,0 +1,54 @@
+module OriginalUpdate
+  def original_update(awards)
+    awards.each do |award|
+      if award.name != 'Blue First' && award.name != 'Blue Compare'
+        if award.quality > 0
+          if award.name != 'Blue Distinction Plus'
+            award.quality -= 1
+          end
+        end
+      else # if blue first or blue compare
+        if award.quality < 50
+          award.quality += 1
+          if award.name == 'Blue Compare'
+            if award.expires_in < 11
+              if award.quality < 50
+                award.quality += 1
+              end
+            end
+            if award.expires_in < 6
+              if award.quality < 50
+                award.quality += 1
+              end
+            end
+          end
+        end
+      end
+      if award.name != 'Blue Distinction Plus'
+        award.expires_in -= 1
+      end
+      binding.pry
+      if award.expires_in < 0
+        if award.name != 'Blue First'
+          if award.name != 'Blue Compare'
+            if award.quality > 0
+              if award.name != 'Blue Distinction Plus'
+                award.quality -= 1
+              end
+            end
+          else # if name is blue compare
+            award.quality = award.quality - award.quality
+          end
+        else #if award name is blue first
+          if award.quality < 50
+            award.quality += 1
+          end
+        end
+      end
+    end
+  end
+end
+
+RSpec.configure do |config|
+  config.include(OriginalUpdate)
+end
